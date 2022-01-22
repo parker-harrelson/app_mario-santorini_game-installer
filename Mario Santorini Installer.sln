@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mario Santorini Installer", "Mario Santorini Installer\Mario Santorini Installer.csproj", "{C8A3632A-EEDE-4A07-AF46-DCB2AD738274}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C8A3632A-EEDE-4A07-AF46-DCB2AD738274}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8A3632A-EEDE-4A07-AF46-DCB2AD738274}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8A3632A-EEDE-4A07-AF46-DCB2AD738274}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8A3632A-EEDE-4A07-AF46-DCB2AD738274}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BDC6C5FF-2E28-455D-AADC-A065F094C2BE}
+	EndGlobalSection
+EndGlobal
