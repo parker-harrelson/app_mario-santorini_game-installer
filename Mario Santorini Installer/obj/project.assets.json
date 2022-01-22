@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\unhac\\OneDrive\\Desktop\\Parker Personal Stuff\\College Work\\Spring 2022\\Capstone\\Mario Santorini Installer\\Mario Santorini Installer\\Mario Santorini Installer\\Mario Santorini Installer.csproj",
+      "projectUniqueName": "C:\\Users\\unhac\\OneDrive\\Desktop\\Parker Personal Stuff\\College Work\\Spring 2022\\Capstone\\Mario Santorini Installer From Git\\Mario Santorini Installer\\Mario Santorini Installer.csproj",
       "projectName": "Mario Santorini Installer",
-      "projectPath": "C:\\Users\\unhac\\OneDrive\\Desktop\\Parker Personal Stuff\\College Work\\Spring 2022\\Capstone\\Mario Santorini Installer\\Mario Santorini Installer\\Mario Santorini Installer\\Mario Santorini Installer.csproj",
+      "projectPath": "C:\\Users\\unhac\\OneDrive\\Desktop\\Parker Personal Stuff\\College Work\\Spring 2022\\Capstone\\Mario Santorini Installer From Git\\Mario Santorini Installer\\Mario Santorini Installer.csproj",
       "packagesPath": "C:\\Users\\unhac\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\unhac\\OneDrive\\Desktop\\Parker Personal Stuff\\College Work\\Spring 2022\\Capstone\\Mario Santorini Installer\\Mario Santorini Installer\\Mario Santorini Installer\\obj\\",
+      "outputPath": "C:\\Users\\unhac\\OneDrive\\Desktop\\Parker Personal Stuff\\College Work\\Spring 2022\\Capstone\\Mario Santorini Installer From Git\\Mario Santorini Installer\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"

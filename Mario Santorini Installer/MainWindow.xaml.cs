@@ -6,22 +6,19 @@ using System.IO.Compression;
 using System.Net;
 using System.Windows;
 
-namespace Mario_Santorini_Installer
-{
+namespace Mario_Santorini_Installer {
 
-    enum LauncherStaus
-    {
-        ready,
-        failed,
-        downloadingGame,
-        downloadingUpdate
+    // This is simply an enum that is used for keeping track of different status's for the launcher throughout
+    // the running process. It allows the GUI to correctly display the state of the process for starting the game
+
+    enum LauncherStaus {
+        READY,
+        FAILED,
+        DOWNLOADING_GAME,
+        DOWNLOADING_UPDATE
     }
 
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
-    {
+    public partial class MainWindow : Window {
 
         private string rootPath;
         private string versionFile;
@@ -30,24 +27,21 @@ namespace Mario_Santorini_Installer
 
         private LauncherStaus _status;
 
-        internal LauncherStaus Status
-        {
+        internal LauncherStaus Status {
             get => _status;
-            set
-            {
+            set {
                 _status = value;
-                switch (_status)
-                {
-                    case LauncherStaus.ready:
+                switch (_status) {
+                    case LauncherStaus.READY:
                         PlayButton.Content = "Play";
                         break;
-                    case LauncherStaus.failed:
-                        PlayButton.Content = "Update Failed - Retry";
+                    case LauncherStaus.FAILED:
+                        PlayButton.Content = "Update FAILED - Retry";
                         break;
-                    case LauncherStaus.downloadingGame:
+                    case LauncherStaus.DOWNLOADING_GAME:
                         PlayButton.Content = "Downloading Game";
                         break;
-                    case LauncherStaus.downloadingUpdate:
+                    case LauncherStaus.DOWNLOADING_UPDATE:
                         PlayButton.Content = "Downloading Update";
                         break;
                     default:
@@ -56,8 +50,8 @@ namespace Mario_Santorini_Installer
             }
         }
 
-        public MainWindow()
-        {
+        public MainWindow() {
+
             InitializeComponent();
 
             rootPath = Directory.GetCurrentDirectory();
@@ -66,69 +60,61 @@ namespace Mario_Santorini_Installer
             gameExe = Path.Combine(rootPath, "Build", "Place holder for Game Exectuable");
         }
 
-        private void CheckForUpdates()
-        {
-            if (File.Exists(versionFile))
-            {
+        private void CheckForUpdates() {
+
+            if (File.Exists(versionFile)) {
+
                 Version localVersion = new Version(File.ReadAllText(versionFile));
                 VersionText.Text = localVersion.ToString();
 
-                try
-                {
+                try {
+
                     WebClient webClient = new WebClient();
                     Version onlineVersion = new Version(webClient.DownloadString("Version File Link"));
 
-                    if (onlineVersion.IsDifferentThan(localVersion))
-                    {
-                        InstallGameFiles(true, onlineVersion);
-                    }
+                    if (onlineVersion.IsDifferentThan(localVersion)) 
+                        InstallGameFiles(true, onlineVersion);                  
                     else
-                    {
-                        Status = LauncherStaus.ready;
-                    }
+                        Status = LauncherStaus.READY;
                 }
-                catch (Exception ex)
-                {
-                    Status = LauncherStaus.failed;
+                catch (Exception ex) {
+
+                    Status = LauncherStaus.FAILED;
                     MessageBox.Show($"Error checking for game updates: {ex}");
                 }
             }
             else
-            {
                 InstallGameFiles(false, Version.zero);
-            }
         }
 
-        private void InstallGameFiles(bool _isUpdate, Version _onlineVersion)
-        {
-            try
-            {
+        private void InstallGameFiles(bool _isUpdate, Version _onlineVersion) {
+
+            try {
+
                 WebClient webClient = new WebClient();
 
                 if (_isUpdate)
-                {
-                    Status = LauncherStaus.downloadingUpdate;
-                }
-                else
-                {
-                    Status = LauncherStaus.downloadingGame;
+                    Status = LauncherStaus.DOWNLOADING_UPDATE;
+                else {
+
+                    Status = LauncherStaus.DOWNLOADING_GAME;
                     _onlineVersion = new Version(webClient.DownloadString("Version File Link"));
                 }
 
                 webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(DownloadGameCompletedCallback);
                 webClient.DownloadFileAsync(new Uri("Game Zip Link"), gameZip, _onlineVersion);
             }
-            catch (Exception ex)
-            {
-                Status = LauncherStaus.failed;
+            catch (Exception ex) {
+
+                Status = LauncherStaus.FAILED;
                 MessageBox.Show($"Error installing game files: {ex}");
             }
         }
 
-        private void DownloadGameCompletedCallback(object sender, AsyncCompletedEventArgs e)
-        {
-            try
-            {
+        private void DownloadGameCompletedCallback(object sender, AsyncCompletedEventArgs e) {
+
+            try {
+
                 string onlineVersion = ((Version)e.UserState).ToString();
                 ZipFile.ExtractToDirectory(gameZip, rootPath, true);
                 File.Delete(gameZip);
@@ -136,58 +122,58 @@ namespace Mario_Santorini_Installer
                 File.WriteAllText(versionFile, onlineVersion);
 
                 VersionText.Text = onlineVersion;
-                Status = LauncherStaus.ready;
+                Status = LauncherStaus.READY;
             }
-            catch (Exception ex)
-            {
-                Status = LauncherStaus.failed;
+            catch (Exception ex) {
+
+                Status = LauncherStaus.FAILED;
                 MessageBox.Show($"Error installing game files: {ex}");
             } 
         }
 
-        private void Window_ContentRendered(object sender, EventArgs e)
-        {
+        private void Window_ContentRendered(object sender, EventArgs e) {
+
             CheckForUpdates();
         }
 
-        private void PlayButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (File.Exists(gameExe) && Status == LauncherStaus.ready)
-            {
+        private void PlayButton_Click(object sender, RoutedEventArgs e) {
+
+            if (File.Exists(gameExe) && Status == LauncherStaus.READY) {
+
                 ProcessStartInfo startInfo = new ProcessStartInfo(gameExe);
                 startInfo.WorkingDirectory = Path.Combine(rootPath, "Build");
                 Process.Start(startInfo);
 
                 Close();
             }
-            else if (Status == LauncherStaus.failed)
-            {
+            else if (Status == LauncherStaus.FAILED) {
+
                 CheckForUpdates();
             }
         }
     } 
 
-    struct Version
-    {
+    struct Version {
+
         internal static Version zero = new Version(0, 0, 0);
 
         private short major;
         private short minor;
         private short subMinor;
 
-        internal Version(short _major, short _minor, short _subMinor)
-        {
+        internal Version(short _major, short _minor, short _subMinor) {
+
             major = _major;
             minor = _minor;
             subMinor = _subMinor;
         }
 
-        internal Version (string _version)
-        {
+        internal Version (string _version) {
+
             string[] _versionStrings = _version.Split('.');
 
-            if (_versionStrings.Length != 3)
-            {
+            if (_versionStrings.Length != 3) {
+
                 major = 0;
                 minor = 0;
                 subMinor = 0;
@@ -199,31 +185,23 @@ namespace Mario_Santorini_Installer
             subMinor = short.Parse(_versionStrings[2]);
         }
 
-        internal bool IsDifferentThan(Version _otherVersion)
-        {
+        internal bool IsDifferentThan(Version _otherVersion) {
+
             if (major != _otherVersion.major)
-            {
                 return true;
-            }
             else
             {
                 if (minor != _otherVersion.minor)
-                {
                     return true;
-                }
                 else
-                {
                     if (subMinor != _otherVersion.subMinor)
-                    {
                         return true;
-                    }
-                }
             }
             return false;
         }
 
-        public override string ToString()
-        {
+        public override string ToString() {
+
             return $"{major}.{minor}.{subMinor}";
         }
     }
